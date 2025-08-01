@@ -3,12 +3,178 @@
     <title>Built by AAAA</title>
     <link href="https://alafariabdullah.sa/feed.xml" rel="self" />
     <link href="https://alafariabdullah.sa" />
-    <updated>2025-08-01T05:33:49+03:00</updated>
+    <updated>2025-08-01T05:42:30+03:00</updated>
     <author>
         <name>Abdullah Ameen A. Alafari</name>
     </author>
     <id>https://alafariabdullah.sa</id>
 
+    <entry>
+        <title>How to set up a time based simple automation trigger/condition</title>
+        <author>
+            <name>Abdullah Ameen A. Alafari</name>
+        </author>
+        <link href="https://alafariabdullah.sa/rm-rf/how-to-set-up-a-time-based-simple-automation-triggercondition/"/>
+        <id>https://alafariabdullah.sa/rm-rf/how-to-set-up-a-time-based-simple-automation-triggercondition/</id>
+            <category term="self-hosting"/>
+            <category term="home-assistant"/>
+            <category term="automation"/>
+            <category term="Guide"/>
+
+        <updated>2025-08-01T05:40:22+03:00</updated>
+            <summary>
+                <![CDATA[
+                    Introduction This tutorial will guide you through creating a time-based automation using Home Assistant’s built-in “Helpers.” You’ll modify the Jinja2 script to suit your own&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <h2 id="introduction">Introduction</h2>
+<p>This tutorial will guide you through creating a time-based automation using Home Assistant’s built-in “Helpers.” </p><ul>
+<li>In this tutorial, you’ll learn how to:<ul>
+<li>Create a Helper to store the date and time.</li>
+<li>Use Jinja2 and simple YAML to create automation triggers.</li>
+<li>Apply this automation to various use cases, such as:<ul>
+<li>Sending a notification to your phone after a certain number of days, like when you haven’t done the laundry.</li>
+<li>Triggering a charger on your Plugged-in HA Dashboard every set number of hours.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>You’ll modify the Jinja2 script to suit your own setup, and the “Helpers” will allow you to easily store and update the base time for automation triggers/condition.</p><h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#step-1--making-a-helper">Step 1 : Making a Helper</a></li>
+<li><a href="#step-2--making-the-automation-triggercondition">Step 2 : Making the Automation trigger/condition</a></li>
+<li><a href="#updating-the-helper">Updating the Helper</a></li>
+<li><a href="#example-use-">Example Use</a></li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>A working <a href="https://www.home-assistant.io/">Home Assistant</a> installation (any of the following setups will work: HA OS, Docker, Supervised, or HA Core).</li>
+</ul>
+<h2 id="step-1--making-a-helper">Step 1 : Making a Helper</h2>
+<p>Creating a Helper to store the time you want to start counting from is the simplest way to easily update it (if needed) via a button or another method.</p><ul>
+<li>Go to <strong>Settings</strong> at the bottom left &gt; <strong>Devices and Services</strong> &gt; <strong>Helpers</strong>
+<figure class="post__image"><img loading="lazy" src="Media/image-1.png" alt="alt text" data-is-external-image="true"></figure>
+<figure class="post__image"><img loading="lazy" src="Media/image-3.png" alt="alt text" data-is-external-image="true"></figure></li>
+<li>Create a <strong>New Helper</strong></li>
+<li><strong>Data and/or Time</strong>
+<figure class="post__image"><img loading="lazy" src="Media/image-5.png" alt="alt text" data-is-external-image="true"></figure></li>
+<li>Give your new Helper a name and choose “Date and Time”</li>
+<li>Click <strong>Create</strong> to create the new helper
+<figure class="post__image"><img loading="lazy" src="Media/image-6.png" alt="alt text" data-is-external-image="true"></figure></li>
+<li>Note : To get the entity ID of your new Helper, click on the three dots at the right and then <strong>Show Settings</strong> Entity ID will be as follows (input_datetime.{HELPERNAME})
+<figure class="post__image"><img loading="lazy" src="Media/image-7.png" alt="alt text" data-is-external-image="true"></figure>
+<figure class="post__image"><img loading="lazy" src="Media/image-8.png" alt="alt text" data-is-external-image="true"></figure></li>
+</ul>
+<h2 id="step-2--making-the-automation-triggercondition">Step 2 : Making the Automation trigger/condition</h2>
+<p>We will use the Helper as a baseline to calculate the time that has passed after the {Helper}.
+The basic code you’ll need to insert is :</p><ul>
+<li>Use one of these, depending on whether you’re using it as the main trigger (e.g., “When X time passes, do Y”) or as a condition (e.g., “If I press a button, check if Y time has passed”).</li>
+</ul>
+<pre><code class="language-YAML">- condition: template
+    value_template: &gt;-
+      {{ (now().timestamp() -
+      (state_attr(&#39;{The Entity ID of your helper}&#39;, &#39;timestamp&#39;)
+      or 0)) &gt; {Time in seconds} }}
+</code></pre>
+<pre><code class="language-YAML">- trigger: template
+    value_template: &gt;-
+      {{ (now().timestamp() -
+      (state_attr(&#39;{The Entity ID of your helper}&#39;, &#39;timestamp&#39;)
+      or 0)) &gt; {Time in seconds} }}
+</code></pre>
+<ul>
+<li><p><strong>{The Entity ID of your Helper}</strong> : Find this in <a href="#step-1--making-a-helper">Step 1 - Note </a></p></li>
+<li><p><strong>{Time in seconds}</strong>: </p><ul>
+<li>1 hour = 3600</li>
+<li>3 days = 259200</li>
+<li>1 week = 604800</li>
+<li>1 year = 31,536,000</li>
+</ul>
+</li>
+<li><p>Next, go to <strong>Settings</strong> &gt; <strong>Automations &amp; Scenes</strong> &gt; <strong>Automation</strong> 
+<figure class="post__image"><img loading="lazy" src="Media/image-1.png" alt="alt text" data-is-external-image="true"></figure></p></li>
+<li><p>Create a new automation and click the three dots at the top, then choose <strong>Edit in YAML</strong>
+<figure class="post__image"><img loading="lazy" src="Media/image-9.png" alt="alt text" data-is-external-image="true"></figure></p></li>
+<li><p>You should see something similar to this</p></li>
+</ul>
+<pre><code class="language-yaml">alias: {Your Title}
+description: &quot;{}&quot;
+triggers:
+conditions:
+actions:
+</code></pre>
+<ul>
+<li>Copy either the trigger or the condition (from earlier) and paste it into the appropriate block. It should look like this, depending on whether you choose Triggers or Conditions: :</li>
+</ul>
+<pre><code class="language-yaml">alias: {Your Title}
+description: &quot;{}&quot;
+triggers:
+- trigger: template
+    value_template: &gt;-
+      {{ (now().timestamp() -
+      (state_attr(&#39;{The Entity ID of your helper}&#39;, &#39;timestamp&#39;)
+      or 0)) &gt; {Time in seconds} }}
+conditions:
+actions:
+</code></pre>
+<h2 id="updating-the-helper">Updating the Helper</h2>
+<p>Updating the Helper is simple. You can do this by sending the following action through a script, button, or any other method :</p><pre><code class="language-YAML">  - action: input_datetime.set_datetime
+    metadata: {}
+    data:
+      datetime: &quot;{{ now().strftime(&#39;%Y-%m-%d %H:%M:%S&#39;) }}&quot;
+    target:
+      entity_id: input_datetime.colored_last_laundry_day
+</code></pre>
+<h2 id="example-use-">Example Use :</h2>
+<p>I use this condition to receive a notification when 3 days have passed since the last time I did the laundry. The notification updates depending on how many days have passed (for example, if it’s 5 years later, the notification will reflect that).
+The automation consists of :</p><ul>
+<li>A <strong>Date and Time Helper</strong>
+-** A Script** to update the Date and Time Helper</li>
+<li>An <strong>Automation</strong></li>
+</ul>
+<p>Helper : Date and time
+Script : </p><pre><code class="language-YAML">sequence:
+  - action: input_datetime.set_datetime
+    metadata: {}
+    data:
+      datetime: &quot;{{ now().strftime(&#39;%Y-%m-%d %H:%M:%S&#39;) }}&quot;
+    target:
+      entity_id: input_datetime.inbetween_last_laundry_day
+alias: update_inbetween_last_laundry_day
+description: &quot;&quot;
+</code></pre>
+<p>Automation : </p><pre><code class="language-YAML">alias: Laundry Reminder After 3 Days or more
+description: &quot;&quot;
+triggers:
+  - trigger: template
+    value_template: &gt;-
+      {{ (now().timestamp() -
+      (state_attr(&#39;input_datetime.input_datetime_last_laundry_day&#39;, &#39;timestamp&#39;)
+      or 0)) &gt; 259200 }}
+conditions:
+  - condition: template
+    value_template: &gt;-
+      {{ (now().timestamp() -
+      (state_attr(&#39;input_datetime.input_datetime_last_laundry_day&#39;, &#39;timestamp&#39;)
+      or 0)) &gt; 259200 }}
+actions:
+  - action: notify.mobile_app_abdullahs_iphone
+    data:
+      message: &gt;-
+        It&#39;s been {{ ((now().timestamp() - 
+        (state_attr(&#39;input_datetime.input_datetime_last_laundry_day&#39;,
+        &#39;timestamp&#39;)  or 0)) // 86400) | int }} days since your last laundry.
+      title: Do the Laundry!
+</code></pre>
+<h2 id="">—</h2>
+<p>This tutorial was created in my free time as a fun project. I am a Computer Science freshman at Prince Sultan University (PSU). If you’re interested, feel free to connect with me on <a href="www.linkedin.com/in/alafari-abdullah">Linkedin</a></p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>qBittorrent Docker — Torrents Stuck in &quot;Errored&quot; State</title>
         <author>
