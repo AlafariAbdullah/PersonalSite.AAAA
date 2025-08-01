@@ -3,10 +3,101 @@
     <title>Built by AAAA</title>
     <link href="https://alafariabdullah.sa/feed.xml" rel="self" />
     <link href="https://alafariabdullah.sa" />
-    <updated>1970-01-01T03:00:00+03:00</updated>
+    <updated>2025-08-01T03:59:08+03:00</updated>
     <author>
         <name>Abdullah Ameen A. Alafari</name>
     </author>
     <id>https://alafariabdullah.sa</id>
 
+    <entry>
+        <title> 🔁 Reboot from Linux into any other OS (Dual Boot) via SSH</title>
+        <author>
+            <name>Abdullah Ameen A. Alafari</name>
+        </author>
+        <link href="https://alafariabdullah.sa/rm-rf/reboot-from-linux-into-any-other-os-dual-boot-via-ssh/"/>
+        <id>https://alafariabdullah.sa/rm-rf/reboot-from-linux-into-any-other-os-dual-boot-via-ssh/</id>
+        <media:content url="https://alafariabdullah.sa/media/posts/4/Grub-Menu-Dual-Boot.jpeg" medium="image" />
+
+        <updated>2025-08-01T03:59:08+03:00</updated>
+            <summary>
+                <![CDATA[
+                        <img src="https://alafariabdullah.sa/media/posts/4/Grub-Menu-Dual-Boot.jpeg" alt="" />
+                    🔁 Reboot from Linux into any other OS (Dual Boot) via SSH This guide shows how to remotely reboot into Any Grub Boot Menu option&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                    <p><img src="https://alafariabdullah.sa/media/posts/4/Grub-Menu-Dual-Boot.jpeg" class="type:primaryImage" alt="" /></p>
+                <h1 id="🔁-reboot-from-linux-into-any-other-os-dual-boot-via-ssh">🔁 Reboot from Linux into any other OS (Dual Boot) via SSH</h1>
+<p>This guide shows how to <strong>remotely reboot into Any Grub Boot Menu option while remoting into linux</strong> on a dual-boot system.</p><blockquote>
+<p>✅ For example: when you’re SSH’d into a Linux system (e.g., Linux Mint) and want the <strong>next boot to go to Windows</strong> without physically interacting with the machine.</p></blockquote>
+<hr>
+<h2 id="📋-prerequisites">📋 Prerequisites</h2>
+<ul>
+<li>Dual boot setup with Linux (e.g., Mint) and another OS</li>
+<li>GRUB bootloader and boot menu</li>
+<li>SSH access to the Linux system</li>
+</ul>
+<hr>
+<p>For full details, Check <a href="https://www.gnu.org/software/grub/grub-documentation.html">Grub’s Official Documentation</a></p><h2 id="🧾-step-by-step">🧾 Step-by-Step</h2>
+<p>For this example, I assume you want to boot into your windows for simplicity</p><h3 id="1-🔍-find-the-windows-grub-entry">1. 🔍 Find the Windows GRUB entry</h3>
+<p>What we’re doing is basically filtering through <code>/boot/grub/grub.cfg</code> to get the lines we want, there’re many ways to do so but the simplest is just to run this command:</p><pre><code class="language-bash">awk -F\&#39; &#39;/menuentry / {print i++ &quot;: &quot; $2}&#39; /boot/grub/grub.cfg
+</code></pre>
+<p>The output will look something like this: </p><pre><code>0: Linux Mint 22 Cinnamon
+1: Linux Mint 22 Cinnamon, with Linux 6.8.0-40-generic
+2: Linux Mint 22 Cinnamon, with Linux 6.8.0-40-generic (recovery mode)
+3: Linux Mint 22 Cinnamon, with Linux 6.8.0-39-generic
+4: Linux Mint 22 Cinnamon, with Linux 6.8.0-39-generic (recovery mode)
+5: Linux Mint 22 Cinnamon, with Linux 6.8.0-38-generic
+6: Linux Mint 22 Cinnamon, with Linux 6.8.0-38-generic (recovery mode)
+7: Windows Boot Manager (on /dev/nvme0n1p1)
+8: UEFI Firmware Settings
+</code></pre>
+<p>Copy the name <strong>exactly</strong>, without the index:
+<code>Windows Boot Manager (on /dev/nvme0n1p1)</code></p><p>Or, if for any reason you didn’t find the Windows entry, run this command:</p><pre><code class="language-bash">sudo grep -i menuentry /boot/grub/grub.cfg
+</code></pre>
+<p>And look for:</p><pre><code>menuentry &#39;Windows Boot Manager (on /dev/nvme0n1p1)&#39; --class windows --class os ...
+</code></pre>
+<p>The name is in quotes.</p><hr>
+<h3 id="2-🚀-reboot-into-windows-once">2. 🚀 Reboot into Windows (once)</h3>
+<p>Now that you have your menu entry, just use <code>grub-reboot</code> with it:</p><pre><code class="language-bash">sudo grub-reboot &quot;Windows Boot Manager (on /dev/nvme0n1p1)&quot;
+sudo reboot
+</code></pre>
+<p>The name in <code>&quot;&quot;</code> should be <strong>exact</strong>.</p><p>For this example, the system will reboot <strong>into Windows one time</strong>, then revert to the default OS (Linux for me).</p><hr>
+<h3 id="3-optional-🔁-make-windows-the-default">3. (Optional) 🔁 Make Windows the default</h3>
+<p>To boot into Windows <strong>every time by default</strong>:</p><pre><code class="language-bash">sudo grub-set-default &quot;Windows Boot Manager (on /dev/nvme0n1p1)&quot;
+sudo update-grub
+</code></pre>
+<p>You can undo this later with:</p><pre><code class="language-bash">sudo grub-set-default 0  # Assuming Linux is first entry, index works as the image shows
+sudo update-grub
+</code></pre>
+<hr>
+<h3 id="4-extra">4. Extra:</h3>
+<p>You’d use the index instead of the name to reboot into the OS once:</p><pre><code class="language-bash">sudo grub-reboot 2
+sudo reboot
+</code></pre>
+<hr>
+<h2 id="🧠-notes">🧠 Notes</h2>
+<ul>
+<li>This uses GRUB’s <strong>temporary boot override</strong> via <code>grub-reboot</code></li>
+<li>You need <code>sudo</code> privileges to run it</li>
+</ul>
+<hr>
+<h2 id="🧵-related-grub-commands">🧵 Related GRUB Commands</h2>
+<ul>
+<li><code>grub-reboot</code> – Set next boot only</li>
+<li><code>grub-set-default</code> – Change default permanently</li>
+<li><code>update-grub</code> – Regenerates GRUB menu</li>
+</ul>
+<hr>
+<h2 id="future">Future:</h2>
+<ul>
+<li>Make it a simple script so you’d remotely run to avoid the manual process</li>
+</ul>
+<hr>
+<h2 id="🖤-credits">🖤 Credits</h2>
+<p>Written by <a href="https://github.com/AlafariAbdullah">Abdullah Alafari</a>, tested on Linux Mint 22 Cinnamon with GRUB2.</p><p>Connect with me on <a href="www.linkedin.com/in/alafari-abdullah">Linkedin</a></p>
+            ]]>
+        </content>
+    </entry>
 </feed>
