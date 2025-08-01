@@ -21,10 +21,11 @@
             "tags": [
                    "self-hosting",
                    "docker",
+                   "Troubleshooting",
                    "Linux"
             ],
             "date_published": "2025-06-04T04:50:00+03:00",
-            "date_modified": "2025-08-01T04:51:04+03:00"
+            "date_modified": "2025-08-01T05:31:25+03:00"
         },
         {
             "id": "https://alafariabdullah.sa/rm-rf/reboot-from-linux-into-any-other-os-dual-boot-via-ssh/",
@@ -39,10 +40,29 @@
             "tags": [
                    "remote",
                    "grub",
-                   "Linux"
+                   "Linux",
+                   "Guide"
             ],
             "date_published": "2025-04-24T03:59:00+03:00",
-            "date_modified": "2025-08-01T04:18:06+03:00"
+            "date_modified": "2025-08-01T05:30:22+03:00"
+        },
+        {
+            "id": "https://alafariabdullah.sa/rm-rf/auto-sync-minecraft-savesworlds-with-git/",
+            "url": "https://alafariabdullah.sa/rm-rf/auto-sync-minecraft-savesworlds-with-git/",
+            "title": "🧠 Auto-Sync Minecraft Saves(Worlds) with Git",
+            "summary": "I often play Minecraft on my desktop at home, but when I’m on the go with my laptop, transferring my save manually used to be&hellip;",
+            "content_html": "<p>I often play Minecraft on my desktop at home, but when I’m on the go with my laptop, transferring my save manually used to be a hassle. I had to remote into my desktop, zip the save folder, spin up a Python HTTPS server, and download it from my laptop. That got old quickly.</p><p>So, I spent two quick hours writing a pair of simple scripts — one for Windows, one for macOS — to automatically run <code>git pull</code> before launching Minecraft, and <code>git push</code> after exiting the game. Now my Minecraft save syncs seamlessly between devices using GitHub.</p><ul>\n<li>I assume you’d just use your .minecraft as your repo to sync your settings, mods and all other game related files (including saves), but I am not entirely sure if there’d be compatibility issues or not.</li>\n</ul>\n<h2 id=\"⚙️-how-it-works\">⚙️ How It Works</h2>\n<ol>\n<li>Your Minecraft save is stored in a <a href=\"https://docs.github.com/en/migrations/importing-source-code/using-the-command-line-to-import-source-code/adding-locally-hosted-code-to-github\">local Git repository</a>.</li>\n<li>When you launch Minecraft:<ul>\n<li>The script pulls the latest version of the save from GitHub.</li>\n</ul>\n</li>\n<li>When you exit Minecraft:<ul>\n<li>The script automatically commits your changes and pushes them to GitHub.</li>\n</ul>\n</li>\n</ol>\n<p>No more zipping, no more remote desktop. Just pure automation.</p><h2 id=\"️replace-any-path-with-your-own-path️\"><em>‼️Replace any path with your own path‼️</em></h2>\n<h2 id=\"the-logic-is-basically-if-a-process-called-java-was-started-and-closed-while-the-script-is-running-check-for-changes-in-the-world-files-and-push-them----i-decided-to-use-the-java-process-instead-of-minecraft-version-to-check-if-the-game-is-open-or-not-since-i-dont-use-java-for-other-purposes-if-you-use-java-replace-the-process-name-with-process-name-of-your-respective-version-or-youd-try-to-search-for-a-process-with-a-prefix-minecraft-but-execlude-the-launcher-the-base-for-the-loop-is-to-determine-if-the-user-opened-the-game-past-the-launcher-or-just-opened-it-and-closed-it\">The logic is basically “If a process called Java was started and closed while the script is running, check for changes in the world files and push them”\n - I decided to use the java process (instead of “Minecraft {version}”) to check if the game is open or not since i don’t use java for other purposes. If you use java, replace the process name with process name of your respective version, or you’d try to search for a process with a prefix “Minecraft” but execlude the Launcher, the base for the loop is to determine if the user opened the game (past the launcher) or just opened it and closed it </h2>\n<h2 id=\"🪟-windows-script-minecraft_launcherbat\">🪟 Windows Script (<code>minecraft_launcher.bat</code>)</h2>\n<pre><code class=\"language-bat\">@echo off\ncd &quot;&quot;C:\\Users\\abdul\\AppData\\Roaming\\.minecraft\\saves\\SAVE_Name&quot;&quot;\n: Save Repo Path &quot;Drive:\\{User}\\AppData\\Roamin\\.minecraft\\saves\\NAME&quot;\n\necho Pulling latest changes...\ngit pull\n\necho Launching Minecraft...\nstart &quot;&quot; /WAIT &quot;&quot;&quot;C:\\Program Files (x86)\\Minecraft Launcher\\MinecraftLauncher.exe&quot;&quot;&quot;\n: Minecraft Launcher Path\n\necho.\necho Waiting for game process to fully close...\n: checkloop\ntasklist | findstr /I java.exe &gt;nul\nif %errorlevel%==0 (\n    echo 🟢 Still running...\n    timeout /t 5 &gt;nul\n    goto checkloop\n)\necho 🔴 Minecraft has closed.\n\necho Backing up your save to GitHub...\n\ngit add .\n: Check if there are any changes staged\ngit diff --cached --quiet\nif %errorlevel%==0 (\n    echo 🟡 No changes to commit.\n) else (\n    git commit -m &quot;Auto backup via Windows&quot;\n    git push\n    echo ✅ Backup pushed to GitHub!\n)\n\npause\n</code></pre>\n<p>✅ Replace {User} and <NAME> with your actual info\n✅ Replace the path to MinecraftLauncher.exe if it’s different\nNote: I added prompts since i didn’t find a one click way to make a .bat run in the background without showing a CMD window. But I assume there’s a way to do so.\n⸻</p><h2 id=\"🍎-macos-script-minecraft_launchersh\">🍎 macOS Script (minecraft_launcher.sh)</h2>\n<pre><code>#!/bin/bash\n\n# Navigate to the gitrepo (the save folder)\ncd &quot;/Users/Abdullah/Library/Application Support/minecraft/saves/SAVE_Name&quot;\n# Save Repo Path &quot;/Users/{User}/Library/Application Support/minecraft/saves/NAME&quot;\n\n# Pull latest version from github\ngit pull\n\n# Open Minecraft\nopen &quot;/Applications/Minecraft.app&quot;\n# Path to your Minecraft.app\n\n# Wait until Minecraft is actually running (java process appears -not launcher-)\nuntil pgrep -x &quot;java&quot; &gt; /dev/null; do\n    sleep 2\ndone\n\n\n\n# Wait until Minecraft fully closes (java process ends)\nwhile pgrep -x &quot;java&quot; &gt; /dev/null; do\n    sleep 5\ndone\n\n# Minecraft has closed\n\n# Perform Git backup only after Minecraft was opened and closed\ngit add .\nif git diff --cached --quiet; then\n    echo &quot;No changes.&quot;\nelse\n    git commit -m &quot;Auto backup via MacOS&quot;\n    git push\nfi\n\n</code></pre>\n<p>✅ Make it executable with <code>chmod +x minecraft_launcher.sh</code> (Via MacOS terminal)\n✅ You can launch it from Automator (if you want it to appear in Spotlight Search)</p><p>⸻</p><h2 id=\"📝-tips\">📝 Tips</h2>\n<ul>\n<li>Make sure both devices use the same branch and repo.</li>\n<li>Always exit Minecraft before switching devices.</li>\n<li>Git handles the history — you just focus on playing </li>\n<li>You’d add a custom icon to each and replace your actual game launcher shortcut with the scripts</li>\n</ul>\n<p>⸻</p><p>Feel free to fork, improve, or reach out if you have suggestions!\nCheck out my <a href=\"https://sa.linkedin.com/in/alafari-abdullah\">Linkedin</a></p><p>⸻</p>",
+            "author": {
+                "name": "Abdullah Ameen A. Alafari"
+            },
+            "tags": [
+                   "shell-scripting",
+                   "minecraft",
+                   "git",
+                   "Guide"
+            ],
+            "date_published": "2025-04-10T05:33:00+03:00",
+            "date_modified": "2025-08-01T05:33:49+03:00"
         }
     ]
 }
