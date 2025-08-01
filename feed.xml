@@ -3,7 +3,7 @@
     <title>Built by AAAA</title>
     <link href="https://alafariabdullah.sa/feed.xml" rel="self" />
     <link href="https://alafariabdullah.sa" />
-    <updated>2025-08-01T03:59:08+03:00</updated>
+    <updated>2025-08-01T04:18:06+03:00</updated>
     <author>
         <name>Abdullah Ameen A. Alafari</name>
     </author>
@@ -17,19 +17,21 @@
         <link href="https://alafariabdullah.sa/rm-rf/reboot-from-linux-into-any-other-os-dual-boot-via-ssh/"/>
         <id>https://alafariabdullah.sa/rm-rf/reboot-from-linux-into-any-other-os-dual-boot-via-ssh/</id>
         <media:content url="https://alafariabdullah.sa/media/posts/4/Grub-Menu-Dual-Boot.jpeg" medium="image" />
+            <category term="remote"/>
+            <category term="grub"/>
+            <category term="Linux"/>
 
-        <updated>2025-08-01T03:59:08+03:00</updated>
+        <updated>2025-04-24T03:59:00+03:00</updated>
             <summary>
                 <![CDATA[
                         <img src="https://alafariabdullah.sa/media/posts/4/Grub-Menu-Dual-Boot.jpeg" alt="" />
-                    🔁 Reboot from Linux into any other OS (Dual Boot) via SSH This guide shows how to remotely reboot into Any Grub Boot Menu option&hellip;
+                    This guide shows how to remotely reboot into Any Grub Boot Menu option while remoting into linux on a dual-boot system. ✅ For example: when&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
                     <p><img src="https://alafariabdullah.sa/media/posts/4/Grub-Menu-Dual-Boot.jpeg" class="type:primaryImage" alt="" /></p>
-                <h1 id="🔁-reboot-from-linux-into-any-other-os-dual-boot-via-ssh">🔁 Reboot from Linux into any other OS (Dual Boot) via SSH</h1>
-<p>This guide shows how to <strong>remotely reboot into Any Grub Boot Menu option while remoting into linux</strong> on a dual-boot system.</p><blockquote>
+                <p>This guide shows how to <strong>remotely reboot into Any Grub Boot Menu option while remoting into linux</strong> on a dual-boot system.</p><blockquote>
 <p>✅ For example: when you’re SSH’d into a Linux system (e.g., Linux Mint) and want the <strong>next boot to go to Windows</strong> without physically interacting with the machine.</p></blockquote>
 <hr>
 <h2 id="📋-prerequisites">📋 Prerequisites</h2>
