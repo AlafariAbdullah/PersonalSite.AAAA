@@ -24,7 +24,7 @@
         <updated>2025-06-04T04:50:00+03:00</updated>
             <summary>
                 <![CDATA[
-                    While self-hosting qBittorrent in Docker on my NAS, I ran into an issue where every torrent I added ended up stuck in an Errored state&hellip;
+                    While self-hosting qBittorrent in Docker on my NAS, I ran into an issue where every torrent I added ended up stuck in an&hellip;
                 ]]>
             </summary>
         <content type="html">
@@ -91,7 +91,7 @@ sudo chmod -R 775 &quot;/volume2/Media Server/qbittorrentDownloads&quot;
             <summary>
                 <![CDATA[
                         <img src="https://alafariabdullah.sa/media/posts/4/Grub-Menu-Dual-Boot.jpeg" alt="" />
-                    This guide shows how to remotely reboot into Any Grub Boot Menu option while remoting into linux on a dual-boot system. ✅ For example: when&hellip;
+                    This guide shows how to remotely reboot into Any Grub Boot Menu option while remoting into linux on a dual-boot system. ✅ For&hellip;
                 ]]>
             </summary>
         <content type="html">
@@ -183,7 +183,7 @@ sudo reboot
         <updated>2025-04-10T05:33:00+03:00</updated>
             <summary>
                 <![CDATA[
-                    I often play Minecraft on my desktop at home, but when I’m on the go with my laptop, transferring my save manually used to be&hellip;
+                    I often play Minecraft on my desktop at home, but when I’m on the go with my laptop, transferring my save manually used&hellip;
                 ]]>
             </summary>
         <content type="html">
@@ -313,7 +313,7 @@ Check out my <a href="https://sa.linkedin.com/in/alafari-abdullah">Linkedin</a><
         <updated>2025-01-17T05:40:00+03:00</updated>
             <summary>
                 <![CDATA[
-                    Introduction This tutorial will guide you through creating a time-based automation using Home Assistant’s built-in “Helpers.” You’ll modify the Jinja2 script to suit your own&hellip;
+                    Introduction This tutorial will guide you through creating a time-based automation using Home Assistant’s built-in “Helpers.” You’ll modify the Jinja2 script to suit&hellip;
                 ]]>
             </summary>
         <content type="html">
