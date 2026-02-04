@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="en-gb"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"><title>🧠 Auto-Sync Minecraft Saves(Worlds) with Git - alafariaabdullah.sa</title><meta name="description" content="I often play Minecraft on my desktop at home, but when I’m on the go with my laptop, transferring my save manually used&hellip;"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="canonical" href="https://alafariabdullah.sa/auto-sync-minecraft-savesworlds-with-git/"><link rel="alternate" type="application/atom+xml" href="https://alafariabdullah.sa/feed.xml" title="alafariaabdullah.sa - RSS"><link rel="alternate" type="application/json" href="https://alafariabdullah.sa/feed.json" title="alafariaabdullah.sa - JSON"><meta property="og:title" content="🧠 Auto-Sync Minecraft Saves(Worlds) with Git"><meta property="og:site_name" content="alafariaabdullah.sa"><meta property="og:description" content="I often play Minecraft on my desktop at home, but when I’m on the go with my laptop, transferring my save manually used&hellip;"><meta property="og:url" content="https://alafariabdullah.sa/auto-sync-minecraft-savesworlds-with-git/"><meta property="og:type" content="article"><link rel="stylesheet" href="https://alafariabdullah.sa/assets/css/fontawesome-all.min.css?v=85514f933f9e0b82460af63f1a403fa5"><link rel="stylesheet" href="https://alafariabdullah.sa/assets/css/style.css?v=0909708ee4af7278f6fa5b9daab19be2"><noscript><link rel="stylesheet" href="https://alafariabdullah.sa/assets/css/noscript.css?v=efa867a99f5064d6729e4dc2008ad50b"></noscript><script type="application/ld+json">{"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://alafariabdullah.sa/auto-sync-minecraft-savesworlds-with-git/"},"headline":"🧠 Auto-Sync Minecraft Saves(Worlds) with Git","datePublished":"2025-04-10T05:33+03:00","dateModified":"2025-08-01T05:33+03:00","description":"I often play Minecraft on my desktop at home, but when I’m on the go with my laptop, transferring my save manually used&hellip;","author":{"@type":"Person","name":"Abdullah Ameen A. Alafari","url":"https://alafariabdullah.sa/authors/abdullah-ameen-a-alafari/"},"publisher":{"@type":"Organization","name":"Abdullah Ameen A. Alafari"}}</script><style>#wrapper > .bg {
+               background-image: url(https://alafariabdullah.sa/assets/images/overlay.png), linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url();
+           }</style><noscript><style>img[loading] {
+                    opacity: 1;
+                }</style></noscript></head><body class="is-preload post-template"><div id="wrapper"><header id="header"><a class="logo" href="https://alafariabdullah.sa/">alafariaabdullah.sa</a></header><nav id="nav"><ul class="links"><li class="fa fa-home"><a href="https://alafariabdullah.sa/" target="_self">Home</a></li><li><a href="https://alafariabdullah.sa/digital-business-card/" target="_self">Contact Me</a></li></ul></nav><main id="main"><article class="post"><header class="major"><time datetime="2025-04-10T05:33" class="date">April 10, 2025</time><h1>🧠 Auto-Sync Minecraft Saves(Worlds) with Git</h1><p class="post__inner"></p></header><div class="post__inner post__entry"><p>I often play Minecraft on my desktop at home, but when I’m on the go with my laptop, transferring my save manually used to be a hassle. I had to remote into my desktop, zip the save folder, spin up a Python HTTPS server, and download it from my laptop. That got old quickly.</p><p>So, I spent two quick hours writing a pair of simple scripts — one for Windows, one for macOS — to automatically run <code>git pull</code> before launching Minecraft, and <code>git push</code> after exiting the game. Now my Minecraft save syncs seamlessly between devices using GitHub.</p><ul><li>I assume you’d just use your .minecraft as your repo to sync your settings, mods and all other game related files (including saves), but I am not entirely sure if there’d be compatibility issues or not.</li></ul><h2 id="⚙️-how-it-works">⚙️ How It Works</h2><ol><li>Your Minecraft save is stored in a <a href="https://docs.github.com/en/migrations/importing-source-code/using-the-command-line-to-import-source-code/adding-locally-hosted-code-to-github">local Git repository</a>.</li><li>When you launch Minecraft:<ul><li>The script pulls the latest version of the save from GitHub.</li></ul></li><li>When you exit Minecraft:<ul><li>The script automatically commits your changes and pushes them to GitHub.</li></ul></li></ol><p>No more zipping, no more remote desktop. Just pure automation.</p><h2 id="️replace-any-path-with-your-own-path️"><em>‼️Replace any path with your own path‼️</em></h2><h2 id="the-logic-is-basically-if-a-process-called-java-was-started-and-closed-while-the-script-is-running-check-for-changes-in-the-world-files-and-push-them----i-decided-to-use-the-java-process-instead-of-minecraft-version-to-check-if-the-game-is-open-or-not-since-i-dont-use-java-for-other-purposes-if-you-use-java-replace-the-process-name-with-process-name-of-your-respective-version-or-youd-try-to-search-for-a-process-with-a-prefix-minecraft-but-execlude-the-launcher-the-base-for-the-loop-is-to-determine-if-the-user-opened-the-game-past-the-launcher-or-just-opened-it-and-closed-it">The logic is basically “If a process called Java was started and closed while the script is running, check for changes in the world files and push them” - I decided to use the java process (instead of “Minecraft {version}”) to check if the game is open or not since i don’t use java for other purposes. If you use java, replace the process name with process name of your respective version, or you’d try to search for a process with a prefix “Minecraft” but execlude the Launcher, the base for the loop is to determine if the user opened the game (past the launcher) or just opened it and closed it</h2><h2 id="🪟-windows-script-minecraft_launcherbat">🪟 Windows Script (<code>minecraft_launcher.bat</code>)</h2><pre><code class="language-bat">@echo off
+cd &quot;&quot;C:\Users\abdul\AppData\Roaming\.minecraft\saves\SAVE_Name&quot;&quot;
+: Save Repo Path &quot;Drive:\{User}\AppData\Roamin\.minecraft\saves\NAME&quot;
+
+echo Pulling latest changes...
+git pull
+
+echo Launching Minecraft...
+start &quot;&quot; /WAIT &quot;&quot;&quot;C:\Program Files (x86)\Minecraft Launcher\MinecraftLauncher.exe&quot;&quot;&quot;
+: Minecraft Launcher Path
+
+echo.
+echo Waiting for game process to fully close...
+: checkloop
+tasklist | findstr /I java.exe &gt;nul
+if %errorlevel%==0 (
+    echo 🟢 Still running...
+    timeout /t 5 &gt;nul
+    goto checkloop
+)
+echo 🔴 Minecraft has closed.
+
+echo Backing up your save to GitHub...
+
+git add .
+: Check if there are any changes staged
+git diff --cached --quiet
+if %errorlevel%==0 (
+    echo 🟡 No changes to commit.
+) else (
+    git commit -m &quot;Auto backup via Windows&quot;
+    git push
+    echo ✅ Backup pushed to GitHub!
+)
+
+pause
+</code></pre><p>✅ Replace {User} and<name>with your actual info ✅ Replace the path to MinecraftLauncher.exe if it’s different Note: I added prompts since i didn’t find a one click way to make a .bat run in the background without showing a CMD window. But I assume there’s a way to do so. ⸻</name></p><h2 id="🍎-macos-script-minecraft_launchersh">🍎 macOS Script (minecraft_launcher.sh)</h2><pre><code>#!/bin/bash
+
+# Navigate to the gitrepo (the save folder)
+cd &quot;/Users/Abdullah/Library/Application Support/minecraft/saves/SAVE_Name&quot;
+# Save Repo Path &quot;/Users/{User}/Library/Application Support/minecraft/saves/NAME&quot;
+
+# Pull latest version from github
+git pull
+
+# Open Minecraft
+open &quot;/Applications/Minecraft.app&quot;
+# Path to your Minecraft.app
+
+# Wait until Minecraft is actually running (java process appears -not launcher-)
+until pgrep -x &quot;java&quot; &gt; /dev/null; do
+    sleep 2
+done
+
+
+
+# Wait until Minecraft fully closes (java process ends)
+while pgrep -x &quot;java&quot; &gt; /dev/null; do
+    sleep 5
+done
+
+# Minecraft has closed
+
+# Perform Git backup only after Minecraft was opened and closed
+git add .
+if git diff --cached --quiet; then
+    echo &quot;No changes.&quot;
+else
+    git commit -m &quot;Auto backup via MacOS&quot;
+    git push
+fi
+
+</code></pre><p>✅ Make it executable with <code>chmod +x minecraft_launcher.sh</code> (Via MacOS terminal) ✅ You can launch it from Automator (if you want it to appear in Spotlight Search)</p><p>⸻</p><h2 id="📝-tips">📝 Tips</h2><ul><li>Make sure both devices use the same branch and repo.</li><li>Always exit Minecraft before switching devices.</li><li>Git handles the history — you just focus on playing</li><li>You’d add a custom icon to each and replace your actual game launcher shortcut with the scripts</li></ul><p>⸻</p><p>Feel free to fork, improve, or reach out if you have suggestions! Check out my <a href="https://sa.linkedin.com/in/alafari-abdullah">Linkedin</a></p><p>⸻</p></div><footer class="post__inner post__footer"><p class="post__last-updated">This article was updated on August 1, 2025</p><div class="post__share-tag-container"><div class="post__tag"><h3>Tagged in:</h3><ul><li><a href="https://alafariabdullah.sa/tags/git/">git</a></li><li><a href="https://alafariabdullah.sa/tags/guide/">Guide</a></li><li><a href="https://alafariabdullah.sa/tags/minecraft/">minecraft</a></li><li><a href="https://alafariabdullah.sa/tags/sheel-scripting/">shell-scripting</a></li></ul></div><div class="post__share"><button class="post__share-button js-post__share-button icon" aria-label="Share button"><i class="fas fa-share-alt"></i></button><div class="post__share-popup js-post__share-popup"></div></div></div><div class="post__bio"><img src="https://alafariabdullah.sa/media/website/AbdullahAlafariProfile.jpeg" loading="lazy" height="2000" width="2000" alt="Abdullah Ameen A. Alafari"><div><h3><a href="https://alafariabdullah.sa/authors/abdullah-ameen-a-alafari/" class="invert" rel="author">Abdullah Ameen A. Alafari</a></h3><p>Computer Science at Prince Sultan University</p></div></div></footer></article></main><footer id="copyright"><ul><li>© AAAA 2025</li></ul></footer></div><script src="https://alafariabdullah.sa/assets/js/jquery.min.js?v=c9771cc3e90e18f5336eedbd0fffb2cf"></script><script src="https://alafariabdullah.sa/assets/js/jquery.scrollex.min.js?v=f89065e3d988006af9791b44561d7c90"></script><script src="https://alafariabdullah.sa/assets/js/jquery.scrolly.min.js?v=1ed5a78bde1476875a40f6b9ff44fc14"></script><script src="https://alafariabdullah.sa/assets/js/browser.min.js?v=c07298dd19048a8a69ad97e754dfe8d0"></script><script src="https://alafariabdullah.sa/assets/js/breakpoints.min.js?v=81a479eb099e3b187613943b085923b8"></script><script src="https://alafariabdullah.sa/assets/js/util.min.js?v=4201a626f8c9b614a663b3a1d7d82615"></script><script src="https://alafariabdullah.sa/assets/js/main.min.js?v=56233c354bd814758be8bff42f7e13a5"></script><script>/*<![CDATA[*/var images=document.querySelectorAll("img[loading]");for(var i=0;i<images.length;i++){if(images[i].complete){images[i].classList.add("is-loaded")}else{images[i].addEventListener("load",function(){this.classList.add("is-loaded")},false)}};/*]]>*/</script></body></html>
