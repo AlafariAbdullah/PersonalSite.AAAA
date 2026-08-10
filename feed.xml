@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">
-    <title>alafariaabdullah.sa</title>
+    <title>alafariabdullah-personal-site</title>
     <link href="https://alafariabdullah.sa/feed.xml" rel="self" />
     <link href="https://alafariabdullah.sa" />
-    <updated>2026-05-24T21:03:23+03:00</updated>
+    <updated>2026-08-10T03:23:18+03:00</updated>
     <author>
         <name>Abdullah Ameen A. Alafari</name>
     </author>
@@ -16,32 +16,33 @@
         </author>
         <link href="https://alafariabdullah.sa/detecting-player-isolation-in-valorant-using-yolov8/"/>
         <id>https://alafariabdullah.sa/detecting-player-isolation-in-valorant-using-yolov8/</id>
-        <media:content url="https://alafariabdullah.sa/media/posts/15/IMG_1153.JPG" medium="image" />
+        <media:content url="https://alafariabdullah.sa/media/posts/2/IMG_1153.JPG" medium="image" />
 
-        <updated>2025-10-05T10:00:28+03:00</updated>
+        <updated>2025-10-05T02:23:00+03:00</updated>
             <summary type="html">
                 <![CDATA[
-                        <img src="https://alafariabdullah.sa/media/posts/15/IMG_1153.JPG" alt="" />
+                        <img src="https://alafariabdullah.sa/media/posts/2/IMG_1153.JPG" alt="" />
                     My experience at Twisted Minds Esports Hackathon 2025 During the Twisted Minds Esports Hackathon 2025 in Riyadh. The challenge was open-ended: build something&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                    <p><img src="https://alafariabdullah.sa/media/posts/15/IMG_1153.JPG" class="type:primaryImage" alt="" /></p>
+                    <p><img src="https://alafariabdullah.sa/media/posts/2/IMG_1153.JPG" class="type:primaryImage" alt="" /></p>
                 <p><em>My experience at <a href="https://hackathon.twisminds.gg">Twisted Minds Esports Hackathon 2025</a></em></p><hr>
 <h3 id="🎯-overview">🎯 Overview</h3>
-<p>During the <strong>Twisted Minds Esports Hackathon 2025</strong> in Riyadh. The challenge was open-ended: build something that could enhance the esports ecosystem - from analytics and player development to fan experiences and broadcast tools.</p><p>Our idea focused on a subtle but impactful problem in competitive play:  </p><blockquote>
+<p>During the <strong>Twisted Minds Esports Hackathon 2025</strong> in Riyadh. The challenge was open-ended: build something that could enhance the esports ecosystem - from analytics and player development to fan experiences and broadcast tools.</p><p>Our idea focused on a subtle but impactful problem in competitive play:</p><blockquote>
 <p><em>It’s hard for players to find good coaches, and even skilled coaches can miss or don’t have the time to review common mistakes when reviewing matches.</em></p></blockquote>
 <p>I built a <strong>proof of concept (POC)</strong> that automates tactical analysis in Valorant by detecting <strong>player positions on the minimap</strong> and identifying when a player becomes <strong>isolated from their teammates</strong> - a key indicator of poor coordination or map control.</p><hr>
 <h3 id="⚙️-problem-definition">⚙️ Problem Definition</h3>
 <p>In team-based games like Valorant, map awareness and positioning often decide rounds.<br>However, reviewing VODs manually to analyze these aspects is slow and error-prone. Coaches need a way to visualize mistakes in real time - especially when players drift too far from allies.</p><p>So I built a <strong>real-time visual analyzer</strong> that watches the minimap, classifies markers as <em>friendly</em>, <em>enemy</em>, or <em>other</em>, and highlights teammates who are <strong>too far from the group</strong>.</p><hr>
 <h3 id="🧠-dataset-and-model-training">🧠 Dataset and Model Training</h3>
-<p>I used the <strong>Valorant Map Analyzer dataset</strong> from <a href="https://universe.roboflow.com/valomap/valorant-map-analyser-r3kxb/browse">Roboflow Universe</a>.<br>It contained more than 40 classes representing map entities. While the dataset isn’t of the highest quality, it was sufficient for this proof of concept.</p><p>During testing, I noticed that some agents with similar appearances—like Jett and Sova—were occasionally mislabeled.</p><p>Although this didn’t affect the team identification (friendly vs enemy), it did introduce inconsistencies. To simplify the results, I manually remapped all classes into three main categories:</p><ul>
-<li>🟩 <strong>Friendly</strong> (teammates)  </li>
-<li>🟥 <strong>Enemy</strong>  </li>
+<p>I used the <strong>Valorant Map Analyzer dataset</strong> from <a href="https://universe.roboflow.com/valomap/valorant-map-analyser-r3kxb/browse">Roboflow Universe</a>.<br>It contained more than 40 classes representing map entities. While the dataset isn’t of the highest quality, it was sufficient for this proof of concept.</p><p>During testing, I noticed that some agents with similar appearances—like Jett and Sova—were occasionally mislabeled.</p><figure class="post__image"><img loading="lazy" src="https://alafariabdullah.sa/media/files/PerPost/ValorantMapJettExample.jpg" alt="Jett mislabel example" data-is-external-image="true"></figure>
+<figure class="post__image"><img loading="lazy" src="https://alafariabdullah.sa/media/files/PerPost/ValorantMapSovaExample.jpg" alt="Sova mislabel example" data-is-external-image="true"></figure><p>Although this didn’t affect the team identification (friendly vs enemy), it did introduce inconsistencies. To simplify the results, I manually remapped all classes into three main categories:</p><ul>
+<li>🟩 <strong>Friendly</strong> (teammates)</li>
+<li>🟥 <strong>Enemy</strong></li>
 <li>🟦 <strong>Other / Neutral</strong></li>
 </ul>
-<pre><code class="language-python"># ---- Class category remap ----
+<pre><code># ---- Class category remap ----
 CATEGORY_MAP = {
     3: &quot;enemy&quot;, 4: &quot;enemy&quot;, 5: &quot;enemy&quot;,
     10: &quot;enemy&quot;, 14: &quot;enemy&quot;, 17: &quot;enemy&quot;,
@@ -65,25 +66,25 @@ CATEGORY_MAP = {
     21: &quot;last_seen&quot;, 40: &quot;spike&quot;, 41: &quot;spike_planted&quot;
 }
 </code></pre>
-<p>The model was trained using <a href="https://docs.ultralytics.com/models/yolov8/"><strong>YOLOv8</strong> (Ultralytics)</a> on Python.  </p><hr>
+<p>The model was trained using <a href="https://docs.ultralytics.com/models/yolov8/"><strong>YOLOv8</strong> (Ultralytics)</a> on Python.</p><hr>
 <h3 id="🧩-system-architecture">🧩 System Architecture</h3>
 <p>The architecture was intentionally lightweight, focusing on real-time feedback rather than cloud infrastructure.</p><pre><code>Screen Capture → YOLOv8 Detection → Intersection over Union (IOU) Tracker → Isolation Logic → OpenCV Visualization
 </code></pre>
 <ol>
-<li><strong>Screen Capture:</strong> Captures the game’s minimap in real time using <a href="https://pypi.org/project/mss/"><code>mss</code></a>.  </li>
-<li><strong>YOLOv8 Inference:</strong> Each frame passes through the trained model.  </li>
+<li><strong>Screen Capture:</strong> Captures the game’s minimap in real time using <a href="https://pypi.org/project/mss/"><code>mss</code></a>.</li>
+<li><strong>YOLOv8 Inference:</strong> Each frame passes through the trained model.</li>
 <li><strong>IOU Tracker:</strong> Attempts to maintain consistent IDs for detected players across consecutive frames to prevent them from being re-registered as “new” each time. However, in practice, improving tracking consistency remains an area for future work.</li>
-<li><strong>Isolation Logic:</strong> Checks distances between friendlies and flags isolated ones.  </li>
+<li><strong>Isolation Logic:</strong> Checks distances between friendlies and flags isolated ones.</li>
 <li><strong>Visualization:</strong> Real-time color-coded overlay.</li>
 </ol>
 <hr>
 <h3 id="🧰-implementation-highlights">🧰 Implementation Highlights</h3>
 <p>The prototype was implemented as a single script:<br><code>minimalcam.py</code></p><ul>
-<li><strong>Device Selection:</strong> The script was developed on a MacBook using Apple’s Metal (mps) backend for PyTorch. On other systems, you may need to adjust the device selection logic — for example, switching to cuda:0 for NVIDIA GPUs or cpu for general compatibility.  </li>
-<li><strong>Real-Time Cropping:</strong> Minimap cropped dynamically (<code>x=0, y=110, w=265, h=265</code>).  (Where the minimap is)</li>
-<li><strong>Custom IOU Tracker:</strong> ~100 lines of pure Python, no external dependencies.  </li>
-<li><strong>Color Logic:</strong>  <ul>
-<li>🟩 Friendly 🟥 Enemy 🟦 Other 🟨 Isolated Friendly</li>
+<li><strong>Device Selection:</strong> The script was developed on a MacBook using Apple’s Metal (mps) backend for PyTorch. On other systems, you may need to adjust the device selection logic — for example, switching to cuda:0 for NVIDIA GPUs or cpu for general compatibility.</li>
+<li><strong>Real-Time Cropping:</strong> Minimap cropped dynamically (<code>x=0, y=110, w=265, h=265</code>). (Where the minimap is)</li>
+<li><strong>Custom IOU Tracker:</strong> ~100 lines of pure Python, no external dependencies.</li>
+<li><strong>Color Logic:</strong><ul>
+<li>🟩 Friendly 🟥 Enemy 🟦 Other 🟨 Isolated Friendly</li>
 </ul>
 </li>
 </ul>
@@ -92,21 +93,21 @@ CATEGORY_MAP = {
 <p>The model ran locally on a <strong>MacBook Air (M1)</strong> using PyTorch’s <strong>MPS backend</strong>.<br>With a resolution of 640×640, it maintained around <strong>15–20 FPS</strong>, fast enough for continuous visualization.</p><hr>
 <h3 id="🔍-challenges-and-learnings">🔍 Challenges and Learnings</h3>
 <ul>
-<li><strong>Dataset consistency:</strong> overlapping or incomplete labels sometimes confused the detector.  </li>
-<li><strong>Performance tuning:</strong> finding the right balance between confidence and FPS.  </li>
+<li><strong>Dataset consistency:</strong> overlapping or incomplete labels sometimes confused the detector.</li>
+<li><strong>Performance tuning:</strong> finding the right balance between confidence and FPS.</li>
 <li><strong>Design philosophy:</strong> the system complements human coaches - it doesn’t replace them.</li>
 </ul>
 <hr>
 <h3 id="🚀-future-directions">🚀 Future Directions</h3>
 <ul>
-<li>Integrate coordinate mapping to get true distance units.  </li>
-<li>Track isolation trends over rounds.  </li>
-<li>Add dashboards for coaches or analysts.  </li>
+<li>Integrate coordinate mapping to get true distance units.</li>
+<li>Track isolation trends over rounds.</li>
+<li>Add dashboards for coaches or analysts.</li>
 <li>Combine with event data (kills, spike, rotations).</li>
 </ul>
 <hr>
 <h3 id="💬-reflection">💬 Reflection</h3>
-<p>Twisted Minds Esports Hackathon showed how <strong>AI can augment human insight</strong> in esports.<br>Even a lightweight YOLOv8 model can surface tactical mistakes that are hard to spot manually.  </p><hr>
+<p>Twisted Minds Esports Hackathon showed how <strong>AI can augment human insight</strong> in esports.<br>Even a lightweight YOLOv8 model can surface tactical mistakes that are hard to spot manually.</p><hr>
 <h3 id="🧩-technical-summary">🧩 Technical Summary</h3>
 <table>
 <thead>
@@ -140,6 +141,8 @@ CATEGORY_MAP = {
 <td><a href="https://github.com/AlafariAbdullah/ValorantPoC/">AlafariAbdullah/ValorantPoC/</a></td>
 </tr>
 </tbody></table>
+<pre><code>
+</code></pre>
 
             ]]>
         </content>
@@ -151,12 +154,12 @@ CATEGORY_MAP = {
         </author>
         <link href="https://alafariabdullah.sa/qbittorrent-docker-torrents-stuck-in-errored-state/"/>
         <id>https://alafariabdullah.sa/qbittorrent-docker-torrents-stuck-in-errored-state/</id>
+            <category term="troubleshooting"/>
             <category term="self-hosting"/>
-            <category term="docker"/>
-            <category term="Troubleshooting"/>
             <category term="Linux"/>
+            <category term="Docker"/>
 
-        <updated>2025-06-04T04:50:00+03:00</updated>
+        <updated>2025-06-04T02:25:00+03:00</updated>
             <summary type="html">
                 <![CDATA[
                     While self-hosting qBittorrent in Docker on my NAS, I ran into an issue where every torrent I added ended up stuck in an&hellip;
@@ -172,37 +175,19 @@ CATEGORY_MAP = {
 <li>DHT, PeX, and LSD all showed as “Working”</li>
 <li>DNS and internet were reachable from the container</li>
 </ul>
-<p>No torrent ever started downloading. The status just stayed like this:</p><pre><code>Status: Errored
+<p>No torrent ever started downloading. The status just stayed like this:</p><p>Status: Errored
 Progress: 0.0%
-Trackers: Not contacted yet
-</code></pre>
-<hr>
+Trackers: Not contacted yet</p><hr>
 <h2 id="what-i-tried-first">What I Tried First</h2>
-<p>I wanted to make sure this wasn’t a DNS or network issue. Since I recently added Pi-hole to my network, I checked whether DNS worked correctly using:</p><pre><code class="language-bash">nslookup google.com 192.168.1.1
-</code></pre>
-<p>Worked perfectly.</p><p>Then I tested network access from inside the container:</p><pre><code class="language-bash">sudo docker exec -it qbittorrent ping google.com
-</code></pre>
-<p>Also successful — packets were getting through. So the network and DNS were clearly not the issue.</p><hr>
+<p>I wanted to make sure this wasn’t a DNS or network issue. Since I recently added Pi-hole to my network, I checked whether DNS worked correctly using:</p><p>nslookup google.com 192.168.1.1</p><p>Worked perfectly.</p><p>Then I tested network access from inside the container:</p><p>sudo docker exec -it qbittorrent ping google.com</p><p>Also successful — packets were getting through. So the network and DNS were clearly not the issue.</p><hr>
 <h2 id="finding-the-real-cause">Finding the Real Cause</h2>
-<p>After ruling out network issues, I started suspecting a file system permission problem.</p><p>I checked what the container sees for its <code>/downloads</code> folder:</p><pre><code class="language-bash">sudo docker exec -it qbittorrent ls -ld /downloads
-</code></pre>
-<p>Here’s what I got:</p><pre><code>d--------- 1 abc abc ... /downloads
-</code></pre>
-<p>This told me that although the directory existed, it had no permissions — not even read or execute. The qBittorrent container had no access to the path it was supposed to write downloaded files to.</p><p>The kicker? On the host, the folder looked completely fine:</p><pre><code class="language-bash">ls -ld &quot;/volume2/Media Server/qbittorrentDownloads&quot;
-drwxrwxrwx+ 1 Admin1 users ...
-</code></pre>
-<p>But Docker’s user mapping didn’t translate that correctly inside the container.</p><hr>
+<p>After ruling out network issues, I started suspecting a file system permission problem.</p><p>I checked what the container sees for its <code>/downloads</code> folder:</p><p>sudo docker exec -it qbittorrent ls -ld /downloads</p><p>Here’s what I got:</p><p>d——— 1 abc abc … /downloads</p><p>This told me that although the directory existed, it had no permissions — not even read or execute. The qBittorrent container had no access to the path it was supposed to write downloaded files to.</p><p>The kicker? On the host, the folder looked completely fine:</p><p>ls -ld “/volume2/Media Server/qbittorrentDownloads”
+drwxrwxrwx+ 1 Admin1 users …</p><p>But Docker’s user mapping didn’t translate that correctly inside the container.</p><hr>
 <h2 id="how-i-fixed-it">How I Fixed It</h2>
-<p>On the NAS host, I updated the ownership and permissions of the downloads directory so that the user inside the container (mapped by PUID 1026 and PGID 100) could actually use it:</p><pre><code class="language-bash">sudo chown -R 1026:100 &quot;/volume2/Media Server/qbittorrentDownloads&quot;
-sudo chmod -R 775 &quot;/volume2/Media Server/qbittorrentDownloads&quot;
-</code></pre>
-<p>Check <a href="https://docs.linuxserver.io/general/understanding-puid-and-pgid/">LinuxServer.io</a> and <a href="https://www.digitalocean.com/community/tutorials/how-to-set-permissions-linux">DigitalOcean</a> for further details regarding <code>PUID</code>, <code>PGID</code>, <code>chown</code>, and <code>chmod</code>.</p><p>Then restarted the container:</p><pre><code class="language-bash">sudo docker restart qbittorrent
-</code></pre>
-<hr>
+<p>On the NAS host, I updated the ownership and permissions of the downloads directory so that the user inside the container (mapped by PUID 1026 and PGID 100) could actually use it:</p><p>sudo chown -R 1026:100 “/volume2/Media Server/qbittorrentDownloads”
+sudo chmod -R 775 “/volume2/Media Server/qbittorrentDownloads”</p><p>Check <a href="https://docs.linuxserver.io/general/understanding-puid-and-pgid/">LinuxServer.io</a> and <a href="https://www.digitalocean.com/community/tutorials/how-to-set-permissions-linux">DigitalOcean</a> for further details regarding <code>PUID</code>, <code>PGID</code>, <code>chown</code>, and <code>chmod</code>.</p><p>Then restarted the container:</p><p>sudo docker restart qbittorrent</p><hr>
 <h2 id="what-happened-after">What Happened After</h2>
-<p>As soon as the container restarted, the torrents that were stuck in “Errored” started working immediately.</p><pre><code>Status: Downloading
-</code></pre>
-<p>Trackers connected. DHT found peers. Files started downloading as expected.</p><hr>
+<p>As soon as the container restarted, the torrents that were stuck in “Errored” started working immediately.</p><p>Status: Downloading</p><p>Trackers connected. DHT found peers. Files started downloading as expected.</p><hr>
 <h2 id="final-thoughts">Final Thoughts</h2>
 <p>If you’re running into similar symptoms—torrents stuck at 0% with no real activity, and everything else looks fine—don’t just trust the host’s folder permissions. Check what the container actually sees.</p><p>Look <em>inside</em> the container for permission issues, especially when using bind mounts with Docker and mapped users like <code>PUID</code>/<code>PGID</code>.</p><p>Sometimes the issue isn’t with the internet, tracker, or torrent file at all — it’s simply that qBittorrent lacks write access to the disk.</p><h2 id="🖤-credits">🖤 Credits</h2>
 <p>Written by <a href="https://github.com/AlafariAbdullah">Abdullah Alafari</a></p><p>Connect with me on <a href="www.linkedin.com/in/alafari-abdullah">Linkedin</a></p>
@@ -210,28 +195,28 @@ sudo chmod -R 775 &quot;/volume2/Media Server/qbittorrentDownloads&quot;
         </content>
     </entry>
     <entry>
-        <title> 🔁 Reboot from Linux into any other OS (Dual Boot) via SSH</title>
+        <title>🔁 Reboot from Linux into any other OS (Dual Boot) via SSH</title>
         <author>
             <name>Abdullah Ameen A. Alafari</name>
         </author>
         <link href="https://alafariabdullah.sa/reboot-from-linux-into-any-other-os-dual-boot-via-ssh/"/>
         <id>https://alafariabdullah.sa/reboot-from-linux-into-any-other-os-dual-boot-via-ssh/</id>
-        <media:content url="https://alafariabdullah.sa/media/posts/4/Grub-Menu-Dual-Boot.jpeg" medium="image" />
-            <category term="remote"/>
-            <category term="grub"/>
+        <media:content url="https://alafariabdullah.sa/media/posts/4/Grub-Menu-Dual-Boot-4.jpeg" medium="image" />
+            <category term="self-hosting"/>
             <category term="Linux"/>
             <category term="Guide"/>
+            <category term="Grub"/>
 
-        <updated>2025-04-24T03:59:00+03:00</updated>
+        <updated>2025-04-24T02:27:00+03:00</updated>
             <summary type="html">
                 <![CDATA[
-                        <img src="https://alafariabdullah.sa/media/posts/4/Grub-Menu-Dual-Boot.jpeg" alt="" />
+                        <img src="https://alafariabdullah.sa/media/posts/4/Grub-Menu-Dual-Boot-4.jpeg" alt="" />
                     This guide shows how to remotely reboot into Any Grub Boot Menu option while remoting into linux on a dual-boot system. ✅ For&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                    <p><img src="https://alafariabdullah.sa/media/posts/4/Grub-Menu-Dual-Boot.jpeg" class="type:primaryImage" alt="" /></p>
+                    <p><img src="https://alafariabdullah.sa/media/posts/4/Grub-Menu-Dual-Boot-4.jpeg" class="type:primaryImage" alt="" /></p>
                 <p>This guide shows how to <strong>remotely reboot into Any Grub Boot Menu option while remoting into linux</strong> on a dual-boot system.</p><blockquote>
 <p>✅ For example: when you’re SSH’d into a Linux system (e.g., Linux Mint) and want the <strong>next boot to go to Windows</strong> without physically interacting with the machine.</p></blockquote>
 <hr>
@@ -244,9 +229,7 @@ sudo chmod -R 775 &quot;/volume2/Media Server/qbittorrentDownloads&quot;
 <hr>
 <p>For full details, Check <a href="https://www.gnu.org/software/grub/grub-documentation.html">Grub’s Official Documentation</a></p><h2 id="🧾-step-by-step">🧾 Step-by-Step</h2>
 <p>For this example, I assume you want to boot into your windows for simplicity</p><h3 id="1-🔍-find-the-windows-grub-entry">1. 🔍 Find the Windows GRUB entry</h3>
-<p>What we’re doing is basically filtering through <code>/boot/grub/grub.cfg</code> to get the lines we want, there’re many ways to do so but the simplest is just to run this command:</p><pre><code class="language-bash">awk -F\&#39; &#39;/menuentry / {print i++ &quot;: &quot; $2}&#39; /boot/grub/grub.cfg
-</code></pre>
-<p>The output will look something like this: </p><pre><code>0: Linux Mint 22 Cinnamon
+<p>What we’re doing is basically filtering through <code>/boot/grub/grub.cfg</code> to get the lines we want, there’re many ways to do so but the simplest is just to run this command:</p><p>awk -F’ ‘/menuentry / {print i++ “: “ $2}’ /boot/grub/grub.cfg</p><p>The output will look something like this:</p><p>0: Linux Mint 22 Cinnamon
 1: Linux Mint 22 Cinnamon, with Linux 6.8.0-40-generic
 2: Linux Mint 22 Cinnamon, with Linux 6.8.0-40-generic (recovery mode)
 3: Linux Mint 22 Cinnamon, with Linux 6.8.0-39-generic
@@ -254,32 +237,18 @@ sudo chmod -R 775 &quot;/volume2/Media Server/qbittorrentDownloads&quot;
 5: Linux Mint 22 Cinnamon, with Linux 6.8.0-38-generic
 6: Linux Mint 22 Cinnamon, with Linux 6.8.0-38-generic (recovery mode)
 7: Windows Boot Manager (on /dev/nvme0n1p1)
-8: UEFI Firmware Settings
-</code></pre>
-<p>Copy the name <strong>exactly</strong>, without the index:
-<code>Windows Boot Manager (on /dev/nvme0n1p1)</code></p><p>Or, if for any reason you didn’t find the Windows entry, run this command:</p><pre><code class="language-bash">sudo grep -i menuentry /boot/grub/grub.cfg
-</code></pre>
-<p>And look for:</p><pre><code>menuentry &#39;Windows Boot Manager (on /dev/nvme0n1p1)&#39; --class windows --class os ...
-</code></pre>
-<p>The name is in quotes.</p><hr>
+8: UEFI Firmware Settings</p><p>Copy the name <strong>exactly</strong>, without the index:
+<code>Windows Boot Manager (on /dev/nvme0n1p1)</code></p><p>Or, if for any reason you didn’t find the Windows entry, run this command:</p><p>sudo grep -i menuentry /boot/grub/grub.cfg</p><p>And look for:</p><p>menuentry ‘Windows Boot Manager (on /dev/nvme0n1p1)’ –class windows –class os …</p><p>The name is in quotes.</p><hr>
 <h3 id="2-🚀-reboot-into-windows-once">2. 🚀 Reboot into Windows (once)</h3>
-<p>Now that you have your menu entry, just use <code>grub-reboot</code> with it:</p><pre><code class="language-bash">sudo grub-reboot &quot;Windows Boot Manager (on /dev/nvme0n1p1)&quot;
-sudo reboot
-</code></pre>
-<p>The name in <code>&quot;&quot;</code> should be <strong>exact</strong>.</p><p>For this example, the system will reboot <strong>into Windows one time</strong>, then revert to the default OS (Linux for me).</p><hr>
+<p>Now that you have your menu entry, just use <code>grub-reboot</code> with it:</p><p>sudo grub-reboot “Windows Boot Manager (on /dev/nvme0n1p1)”
+sudo reboot</p><p>The name in <code>&quot;&quot;</code> should be <strong>exact</strong>.</p><p>For this example, the system will reboot <strong>into Windows one time</strong>, then revert to the default OS (Linux for me).</p><hr>
 <h3 id="3-optional-🔁-make-windows-the-default">3. (Optional) 🔁 Make Windows the default</h3>
-<p>To boot into Windows <strong>every time by default</strong>:</p><pre><code class="language-bash">sudo grub-set-default &quot;Windows Boot Manager (on /dev/nvme0n1p1)&quot;
-sudo update-grub
-</code></pre>
-<p>You can undo this later with:</p><pre><code class="language-bash">sudo grub-set-default 0  # Assuming Linux is first entry, index works as the image shows
-sudo update-grub
-</code></pre>
-<hr>
+<p>To boot into Windows <strong>every time by default</strong>:</p><p>sudo grub-set-default “Windows Boot Manager (on /dev/nvme0n1p1)”
+sudo update-grub</p><p>You can undo this later with:</p><p>sudo grub-set-default 0 # Assuming Linux is first entry, index works as the image shows
+sudo update-grub</p><hr>
 <h3 id="4-extra">4. Extra:</h3>
-<p>You’d use the index instead of the name to reboot into the OS once:</p><pre><code class="language-bash">sudo grub-reboot 2
-sudo reboot
-</code></pre>
-<hr>
+<p>You’d use the index instead of the name to reboot into the OS once:</p><p>sudo grub-reboot 2
+sudo reboot</p><hr>
 <h2 id="🧠-notes">🧠 Notes</h2>
 <ul>
 <li>This uses GRUB’s <strong>temporary boot override</strong> via <code>grub-reboot</code></li>
@@ -315,7 +284,7 @@ sudo reboot
             <category term="git"/>
             <category term="Guide"/>
 
-        <updated>2025-04-10T05:33:00+03:00</updated>
+        <updated>2025-04-10T05:21:00+03:00</updated>
             <summary type="html">
                 <![CDATA[
                     I often play Minecraft on my desktop at home, but when I’m on the go with my laptop, transferring my save manually used&hellip;
@@ -339,10 +308,9 @@ sudo reboot
 </li>
 </ol>
 <p>No more zipping, no more remote desktop. Just pure automation.</p><h2 id="️replace-any-path-with-your-own-path️"><em>‼️Replace any path with your own path‼️</em></h2>
-<h2 id="the-logic-is-basically-if-a-process-called-java-was-started-and-closed-while-the-script-is-running-check-for-changes-in-the-world-files-and-push-them----i-decided-to-use-the-java-process-instead-of-minecraft-version-to-check-if-the-game-is-open-or-not-since-i-dont-use-java-for-other-purposes-if-you-use-java-replace-the-process-name-with-process-name-of-your-respective-version-or-youd-try-to-search-for-a-process-with-a-prefix-minecraft-but-execlude-the-launcher-the-base-for-the-loop-is-to-determine-if-the-user-opened-the-game-past-the-launcher-or-just-opened-it-and-closed-it">The logic is basically “If a process called Java was started and closed while the script is running, check for changes in the world files and push them”
- - I decided to use the java process (instead of “Minecraft {version}”) to check if the game is open or not since i don’t use java for other purposes. If you use java, replace the process name with process name of your respective version, or you’d try to search for a process with a prefix “Minecraft” but execlude the Launcher, the base for the loop is to determine if the user opened the game (past the launcher) or just opened it and closed it </h2>
+<h2 id="the-logic-is-basically-if-a-process-called-java-was-started-and-closed-while-the-script-is-running-check-for-changes-in-the-world-files-and-push-them---i-decided-to-use-the-java-process-instead-of-minecraft-version-to-check-if-the-game-is-open-or-not-since-i-dont-use-java-for-other-purposes-if-you-use-java-replace-the-process-name-with-process-name-of-your-respective-version-or-youd-try-to-search-for-a-process-with-a-prefix-minecraft-but-execlude-the-launcher-the-base-for-the-loop-is-to-determine-if-the-user-opened-the-game-past-the-launcher-or-just-opened-it-and-closed-it">The logic is basically “If a process called Java was started and closed while the script is running, check for changes in the world files and push them” - I decided to use the java process (instead of “Minecraft {version}”) to check if the game is open or not since i don’t use java for other purposes. If you use java, replace the process name with process name of your respective version, or you’d try to search for a process with a prefix “Minecraft” but execlude the Launcher, the base for the loop is to determine if the user opened the game (past the launcher) or just opened it and closed it</h2>
 <h2 id="🪟-windows-script-minecraft_launcherbat">🪟 Windows Script (<code>minecraft_launcher.bat</code>)</h2>
-<pre><code class="language-bat">@echo off
+<pre><code>@echo off
 cd &quot;&quot;C:\Users\abdul\AppData\Roaming\.minecraft\saves\SAVE_Name&quot;&quot;
 : Save Repo Path &quot;Drive:\{User}\AppData\Roamin\.minecraft\saves\NAME&quot;
 
@@ -379,7 +347,7 @@ if %errorlevel%==0 (
 
 pause
 </code></pre>
-<p>✅ Replace {User} and <NAME> with your actual info
+<p>✅ Replace {User} and  with your actual info
 ✅ Replace the path to MinecraftLauncher.exe if it’s different
 Note: I added prompts since i didn’t find a one click way to make a .bat run in the background without showing a CMD window. But I assume there’s a way to do so.
 ⸻</p><h2 id="🍎-macos-script-minecraft_launchersh">🍎 macOS Script (minecraft_launcher.sh)</h2>
@@ -418,14 +386,13 @@ else
     git commit -m &quot;Auto backup via MacOS&quot;
     git push
 fi
-
 </code></pre>
 <p>✅ Make it executable with <code>chmod +x minecraft_launcher.sh</code> (Via MacOS terminal)
 ✅ You can launch it from Automator (if you want it to appear in Spotlight Search)</p><p>⸻</p><h2 id="📝-tips">📝 Tips</h2>
 <ul>
 <li>Make sure both devices use the same branch and repo.</li>
 <li>Always exit Minecraft before switching devices.</li>
-<li>Git handles the history — you just focus on playing </li>
+<li>Git handles the history — you just focus on playing</li>
 <li>You’d add a custom icon to each and replace your actual game launcher shortcut with the scripts</li>
 </ul>
 <p>⸻</p><p>Feel free to fork, improve, or reach out if you have suggestions!
