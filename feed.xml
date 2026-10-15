@@ -10,34 +10,6 @@
     <id>https://alafariabdullah.sa</id>
 
     <entry>
-        <title>Zigbee &amp; How Does It Work?</title>
-        <author>
-            <name>Abdullah Ameen A. Alafari</name>
-        </author>
-        <link href="https://alafariabdullah.sa/zigbee/"/>
-        <id>https://alafariabdullah.sa/zigbee/</id>
-
-        <updated>2026-10-04T00:11:01+03:00</updated>
-            <summary type="html">
-                <![CDATA[
-                    Why Zigbee? When you think about buying a smart light switch or any similar device, you’d think about connectivity: how does the device&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <h2 id="why-zigbee">Why Zigbee?</h2>
-<p>When you think about buying a smart light switch or any similar device, you’d think about connectivity: how does the device send and receive data?</p><ul>
-<li>Wired (like <a href="">KNX</a>): most reliable but the issue is cost, and it needs special cables in the building.</li>
-<li>Wi-Fi: good for a small number of devices, the more you add, the more lag and limited bandwidth you get.</li>
-<li>Bluetooth: occasional disconnects and mostly no remote control (only when you’re nearby)</li>
-<li>Zigbee and Thread: protocols made specifically for IoT</li>
-</ul>
-<p>Zigbee wins because it’s a mesh (every non-battery powered device extends the network), it handles many devices without slowing down (it gets stronger and more reliable), and it works without the internet.</p><h2 id="how-zigbee-works">How Zigbee Works</h2>
-<p>All [Zigbee](a site) devices communicate with the <a href="">Coordinator</a> which is my <a href="">SLZB-06M</a>, which connects to my home network via ethernet, and <a href="">Zigbee2MQTT</a> connects via <a href="">TCP</a> , there’s no technical reason to use ethernet and I could’ve easily used USB but my NAS/Server is far from all devices in the basement and connected to the same network switch. From there, Zigbee2MQTT passes it through <a href="">Mosquitto (MQTT)</a> to which my <a href="">Home Assistant</a> is <a href="">subscribed</a>. Home Assistant has a good integration called <a href="">HomeKit Bridge</a> which adds select devices to <a href="">Apple Home</a> for integration with the Apple ecosystem.</p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
         <title> I Wired a Minecraft Button to My Bedroom Light (No Cheats, No Mods)</title>
         <author>
             <name>Abdullah Ameen A. Alafari</name>
