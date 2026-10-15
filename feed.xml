@@ -3,7 +3,7 @@
     <title>alafariabdullah-personal-site</title>
     <link href="https://alafariabdullah.sa/feed.xml" rel="self" />
     <link href="https://alafariabdullah.sa" />
-    <updated>2026-10-15T08:53:38+03:00</updated>
+    <updated>2026-10-15T08:59:30+03:00</updated>
     <author>
         <name>Abdullah Ameen A. Alafari</name>
     </author>
@@ -45,7 +45,7 @@
         ▼
 [Real device toggles ---&gt; e.g. a Zigbee smart light]
 </code></pre>
-<p>The datapack side polls the button’s block state every tick using <code>execute if block ~ ~ ~ #minecraft:buttons[powered=true]</code>, compares it agai<a href="https://minecraft.wiki/w/Commands/saynst">https://minecraft.wiki/w/Commands/saynst</a> a stored value to detect a <em>rising edge</em> (unpowered —&gt; powered), and when it sees one, fires:</p><pre><code class="language-mcfunction"># functions/check_button.mcfunction
+<p>The datapack side polls the button’s block state every tick using <code>execute if block ~ ~ ~ #minecraft:buttons[powered=true]</code>, compares it against a stored value to detect a <em>rising edge</em> (unpowered —&gt; powered), and when it sees one, fires:</p><pre><code class="language-mcfunction"># functions/check_button.mcfunction
 # runs every tick via #minecraft:tick
 
 execute if block ~ ~ ~ #minecraft:buttons[powered=true] run scoreboard players set button_state bridge 1
